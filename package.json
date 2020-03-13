@@ -4,6 +4,7 @@
     "@types/cors": "^2.8.6",
     "@types/express": "^4.17.3",
     "@types/got": "^9.6.9",
+    "jest": "^25.1.0",
     "serverless-offline": "^6.0.0-alpha.67",
     "serverless-plugin-typescript": "^1.1.9",
     "typescript": "^3.8.3"

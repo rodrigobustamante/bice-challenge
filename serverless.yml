@@ -63,6 +63,13 @@ functions:
     events:
       - http: ANY /
       - http: 'ANY {proxy+}'
+    environment:
+      POLICY_PRICES__HEALTH__WITHOUT_CHILDS: 0.279
+      POLICY_PRICES__HEALTH__ONE_CHILDS: 0.4396
+      POLICY_PRICES__HEALTH__TWO_OR_MORE_CHILDS: 0.5599
+      POLICY_PRICES__DENTAL__WITHOUT_CHILDS: 0.12
+      POLICY_PRICES__DENTAL__ONE_CHILDS: 0.1950
+      POLICY_PRICES__DENTAL__TWO_OR_MORE_CHILDS: 0.2480
 
 plugins:
   - serverless-plugin-typescript
