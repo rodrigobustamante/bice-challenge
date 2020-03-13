@@ -1,6 +1,11 @@
-'use strict';
-import server from './src/index';
+"use strict";
 
-export const handler = async (event: any = {}, context: any): Promise<any> => {
+import { APIGatewayEvent, APIGatewayProxyResult, Context } from "aws-lambda";
+import server from "./src/index";
+
+export const handler = async (
+  event: APIGatewayEvent,
+  context: Context
+): Promise<APIGatewayProxyResult> => {
   return await server(event, context);
-}
+};
