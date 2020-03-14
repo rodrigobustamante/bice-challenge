@@ -110,6 +110,10 @@ Run the next command on your terminal, located on the root of the repository.
   serverless offline
 ```
 
+This command expose a PORT with the service, all the instructions are available in the terminal after run this command.
+
+The endpoint to get the policy information is the root (/).
+
 ### 4.2.4 (Optional step)
 
 If you want to exec the project unit test, just run the next command on your terminal, located on the root of the repository.
