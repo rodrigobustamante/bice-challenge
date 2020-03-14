@@ -1,45 +1,90 @@
-import got from "got";
-import express from "express";
+import got from 'got';
+import express from 'express';
+import {
+  calculateWorkerSecureCost,
+  calculateWorkerAmountToPay,
+  calculateCompanyAmountToPay,
+} from '../utils/policy';
 
-const controller = async (
-  req: express.Request,
-  res: express.Response
-): Promise<any> => {
+interface WorkerInterface {
+  age: number;
+  childs: number;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const controller = async (_req: express.Request, res: express.Response): Promise<any> => {
+  const {
+    POLICY_API_URL: policyApiUrl = '',
+    POLICY_AGE_LIMIT: policyAgeLimit,
+    POLICY_PRICES__HEALTH__WITHOUT_CHILDREN: healthPriceWithoutChildren = 0.279,
+    POLICY_PRICES__HEALTH__ONE_CHILD: healthPriceWithOneChild = 0.4396,
+    POLICY_PRICES__HEALTH__TWO_OR_MORE_CHILDEN: healthPriceWithTwoOrMoreChildren = 0.5599,
+    POLICY_PRICES__DENTAL__WITHOUT_CHILDEN: dentalPriceWithoutChildren = 0.12,
+    POLICY_PRICES__DENTAL__ONE_CHILD: dentalPriceWithOneChild = 0.195,
+    POLICY_PRICES__DENTAL__TWO_OR_MORE_CHILDREN: dentalPriceWithTwoOrMoreChildren = 0.248,
+  } = process.env;
+
+  const healthPriceOptions = {
+    priceWithoutChildren: Number(healthPriceWithoutChildren),
+    priceWithOneChild: Number(healthPriceWithOneChild),
+    priceWithTwoOrMoreChildren: Number(healthPriceWithTwoOrMoreChildren),
+  };
+
+  const dentalPriceOptions = {
+    priceWithoutChildren: Number(dentalPriceWithoutChildren),
+    priceWithOneChild: Number(dentalPriceWithOneChild),
+    priceWithTwoOrMoreChildren: Number(dentalPriceWithTwoOrMoreChildren),
+  };
+
   try {
     const {
-      body: { policy }
-    } = await got(
-      "https://dn8mlk7hdujby.cloudfront.net/interview/insurance/policy",
-      { responseType: "json" }
-    );
+      body: { policy },
+    } = await got(policyApiUrl, {
+      responseType: 'json',
+    });
 
     const {
-      POLICY_PRICES__HEALTH__WITHOUT_CHILDS,
-      POLICY_PRICES__HEALTH__ONE_CHILDS,
-      POLICY_PRICES__HEALTH__TWO_OR_MORE_CHILDS,
-      POLICY_PRICES__DENTAL__WITHOUT_CHILDS,
-      POLICY_PRICES__DENTAL__ONE_CHILDS,
-      POLICY_PRICES__DENTAL__TWO_OR_MORE_CHILDS,
-     } = process.env;
+      workers,
+      has_dental_care: hasDentalCare,
+      company_percentage: companyPercentage,
+    } = policy;
+
+    let companyAmountToPayWithoutDiscounts = 0;
+
+    const companyWorkers = workers
+      .map((worker: WorkerInterface) => {
+        const { age, childs: children } = worker;
+
+        if (age > Number(policyAgeLimit)) return undefined;
+
+        const healthPolicyPrice = calculateWorkerSecureCost(children, healthPriceOptions);
+        const dentalPolicyPrice = hasDentalCare
+          ? calculateWorkerSecureCost(children, dentalPriceOptions)
+          : 0;
+
+        const totalPolicyPrice = healthPolicyPrice + dentalPolicyPrice;
+
+        companyAmountToPayWithoutDiscounts += totalPolicyPrice;
+
+        return {
+          ...worker,
+          healthPolicyPrice,
+          dentalPolicyPrice,
+          amountToPay: calculateWorkerAmountToPay(totalPolicyPrice, companyPercentage),
+        };
+      })
+      .filter((worker: WorkerInterface) => !!worker);
 
     res.status(200).send({
-      policy,
-      env: {
-        health: {
-          withoutChilds: Number(POLICY_PRICES__HEALTH__WITHOUT_CHILDS) || 0.279,
-          oneChild: Number(POLICY_PRICES__HEALTH__ONE_CHILDS) || 0.4396,
-          twoOrMoreChilds: Number(POLICY_PRICES__HEALTH__TWO_OR_MORE_CHILDS) || 0.5599,
-        },
-        dental: {
-          withoutChilds: Number(POLICY_PRICES__DENTAL__WITHOUT_CHILDS) || 0.12,
-          oneChild: Number(POLICY_PRICES__DENTAL__ONE_CHILDS) || 0.1950,
-          twoOrMoreChilds: Number(POLICY_PRICES__DENTAL__TWO_OR_MORE_CHILDS) || 0.2480,
-        }
-      }
+      companyWorkers,
+      companyPolicyPrice: calculateCompanyAmountToPay(
+        companyAmountToPayWithoutDiscounts,
+        companyPercentage,
+      ),
     });
   } catch (error) {
     res.status(500).send({
-      message: "Internal server error",
+      message: 'Internal server error',
       error,
     });
   }
