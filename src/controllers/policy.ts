@@ -71,15 +71,32 @@ const getPolicy = async (
         ? calculateWorkerSecureCost(children, dentalPriceOptions)
         : 0;
 
-      const totalPolicyPrice = healthPolicyPrice + dentalPolicyPrice;
+      const companyCoverageHealth = calculateCompanyAmountToPay(
+        healthPolicyPrice,
+        companyPercentage,
+      );
+      const companyCoverageDental = calculateCompanyAmountToPay(
+        dentalPolicyPrice,
+        companyPercentage,
+      );
 
-      companyAmountToPayWithoutDiscounts += totalPolicyPrice;
+      const workerCoverageHealth = calculateWorkerAmountToPay(healthPolicyPrice, companyPercentage);
+      const workerCoverageDental = calculateWorkerAmountToPay(dentalPolicyPrice, companyPercentage);
+
+      companyAmountToPayWithoutDiscounts += healthPolicyPrice + dentalPolicyPrice;
 
       return {
         ...worker,
-        healthPolicyPrice,
-        dentalPolicyPrice,
-        amountToPay: calculateWorkerAmountToPay(totalPolicyPrice, companyPercentage),
+        companyCoverage: {
+          amountToPayForHealth: companyCoverageHealth,
+          amountToPayForDental: companyCoverageDental,
+          totalAmountToPay: companyCoverageHealth + companyCoverageDental,
+        },
+        workerAmountToPay: {
+          amountToPayForHealth: workerCoverageHealth,
+          amountToPayForDental: workerCoverageDental,
+          totalAmountToPay: workerCoverageHealth + workerCoverageDental,
+        },
         enableForThisPolicy: true,
       };
     });
