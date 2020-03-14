@@ -85,11 +85,13 @@ const getPolicy = async (
     });
 
     return res.status(200).send({
-      companyWorkers,
       companyPolicyPrice: calculateCompanyAmountToPay(
         companyAmountToPayWithoutDiscounts,
         companyPercentage,
       ),
+      hasDentalCare,
+      companyPercentage,
+      companyWorkers,
     });
   } catch (error) {
     return res.status(500).send({
