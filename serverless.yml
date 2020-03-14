@@ -62,9 +62,10 @@ functions:
     handler: handler.handler
     events:
       - http: ANY /
-      - http: 'ANY {proxy+}'
+      - http: "ANY {proxy+}"
     environment:
       POLICY_API_URL: https://dn8mlk7hdujby.cloudfront.net/interview/insurance/policy
+      POLICY_AGE_LIMIT: 65
       POLICY_PRICES__HEALTH__WITHOUT_CHILDREN: 0.279
       POLICY_PRICES__HEALTH__ONE_CHILD: 0.4396
       POLICY_PRICES__HEALTH__TWO_OR_MORE_CHILDREN: 0.5599
