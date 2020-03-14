@@ -17,13 +17,13 @@ const getPolicy = async (
 ): Promise<express.Response> => {
   const {
     POLICY_API_URL: policyApiUrl = '',
-    POLICY_AGE_LIMIT: policyAgeLimit,
-    POLICY_PRICES__HEALTH__WITHOUT_CHILDREN: healthPriceWithoutChildren = 0.279,
-    POLICY_PRICES__HEALTH__ONE_CHILD: healthPriceWithOneChild = 0.4396,
-    POLICY_PRICES__HEALTH__TWO_OR_MORE_CHILDEN: healthPriceWithTwoOrMoreChildren = 0.5599,
-    POLICY_PRICES__DENTAL__WITHOUT_CHILDEN: dentalPriceWithoutChildren = 0.12,
-    POLICY_PRICES__DENTAL__ONE_CHILD: dentalPriceWithOneChild = 0.195,
-    POLICY_PRICES__DENTAL__TWO_OR_MORE_CHILDREN: dentalPriceWithTwoOrMoreChildren = 0.248,
+    POLICY_AGE_LIMIT: policyAgeLimit = '',
+    POLICY_PRICES__HEALTH__WITHOUT_CHILDREN: healthPriceWithoutChildren = '',
+    POLICY_PRICES__HEALTH__ONE_CHILD: healthPriceWithOneChild = '',
+    POLICY_PRICES__HEALTH__TWO_OR_MORE_CHILDEN: healthPriceWithTwoOrMoreChildren = '',
+    POLICY_PRICES__DENTAL__WITHOUT_CHILDEN: dentalPriceWithoutChildren = '',
+    POLICY_PRICES__DENTAL__ONE_CHILD: dentalPriceWithOneChild = '',
+    POLICY_PRICES__DENTAL__TWO_OR_MORE_CHILDREN: dentalPriceWithTwoOrMoreChildren = '',
   } = process.env;
 
   const healthPriceOptions = {
