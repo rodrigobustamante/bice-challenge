@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import controller from '../controllers';
+import policy from '../controllers/policy';
 
 const router = Router();
 
-router.get('/', controller);
+router.get('/', policy);
 
 export default router;

@@ -11,8 +11,10 @@ interface WorkerInterface {
   childs: number;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const controller = async (_req: express.Request, res: express.Response): Promise<any> => {
+const getPolicy = async (
+  _req: express.Request,
+  res: express.Response,
+): Promise<express.Response> => {
   const {
     POLICY_API_URL: policyApiUrl = '',
     POLICY_AGE_LIMIT: policyAgeLimit,
@@ -75,7 +77,7 @@ const controller = async (_req: express.Request, res: express.Response): Promise
       })
       .filter((worker: WorkerInterface) => !!worker);
 
-    res.status(200).send({
+    return res.status(200).send({
       companyWorkers,
       companyPolicyPrice: calculateCompanyAmountToPay(
         companyAmountToPayWithoutDiscounts,
@@ -83,11 +85,11 @@ const controller = async (_req: express.Request, res: express.Response): Promise
       ),
     });
   } catch (error) {
-    res.status(500).send({
+    return res.status(500).send({
       message: 'Internal server error',
       error,
     });
   }
 };
 
-export default controller;
+export default getPolicy;
