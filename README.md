@@ -3,9 +3,9 @@
 ## Table of Contents
 
 1. [Introduction](#1-introduction)
-2. [Project Structure](#2-structure)
-3. [Used Libraries](#3-libraries)
-4. [Run the project](#3-run-the-project)
+2. [Project Structure](#2-project-structure)
+3. [Used Libraries](#3-used-libraries)
+4. [Run the project](#4-run-the-project)
 
 ## 1. Introduction
 
