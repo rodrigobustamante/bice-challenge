@@ -57,7 +57,15 @@ const getPolicy = async (
       .map((worker: WorkerInterface) => {
         const { age, childs: children } = worker;
 
-        if (age > Number(policyAgeLimit)) return undefined;
+        if (age > Number(policyAgeLimit)) {
+          return {
+            ...worker,
+            healthPolicyPrice: 0,
+            dentalPolicyPrice: 0,
+            amountToPay: 0,
+            enableForThisPolicy: false,
+          };
+        }
 
         const healthPolicyPrice = calculateWorkerSecureCost(children, healthPriceOptions);
         const dentalPolicyPrice = hasDentalCare
@@ -73,6 +81,7 @@ const getPolicy = async (
           healthPolicyPrice,
           dentalPolicyPrice,
           amountToPay: calculateWorkerAmountToPay(totalPolicyPrice, companyPercentage),
+          enableForThisPolicy: true,
         };
       })
       .filter((worker: WorkerInterface) => !!worker);
