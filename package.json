@@ -8,9 +8,11 @@
     "poetic": "^1.4.1",
     "serverless-offline": "^6.0.0-alpha.67",
     "serverless-plugin-typescript": "^1.1.9",
+    "ts-jest": "^25.2.1",
     "typescript": "^3.8.3"
   },
   "dependencies": {
+    "@types/jest": "^25.1.4",
     "aws-lambda": "^1.0.5",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
@@ -19,10 +21,14 @@
     "serverless-http": "^2.3.2"
   },
   "scripts": {
+    "test": "jest",
     "code:check": "yarn code:lint; yarn code:format --check",
     "code:clean": "yarn code:lint --fix; yarn code:format --write",
     "code:lint": "eslint --ext .js,.jsx,.ts,.tsx \"src/\"",
     "code:format": "prettier './src/**/**.{js,jsx,ts,tsx}'",
     "code:check:rules": "eslint --print-config .eslintrc.js | eslint-config-prettier-check"
+  },
+  "jest": {
+    "preset": "ts-jest"
   }
 }
