@@ -15,6 +15,8 @@ The challenge consists in consume a BICE Vida REST service, and calculate the po
 
 The technical requirement for develop this service is use [NodeJS](https://nodejs.org/), with the [Serverless Framework](https://serverless.com).
 
+[Link to the service](https://8iubcq49tk.execute-api.us-east-1.amazonaws.com/dev), running in an AWS Lambda (λ)
+
 ## 2. Project Structure
 
 The folder structure with their definitions is the next:
