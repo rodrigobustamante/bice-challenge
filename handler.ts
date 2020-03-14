@@ -4,6 +4,4 @@ import server from './src/index';
 export const handler = async (
   event: APIGatewayEvent,
   context: Context,
-): Promise<APIGatewayProxyResult> => {
-  return server(event, context);
-};
+): Promise<APIGatewayProxyResult> => server(event, context);
