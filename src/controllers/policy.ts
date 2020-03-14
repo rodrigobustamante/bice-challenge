@@ -53,38 +53,36 @@ const getPolicy = async (
 
     let companyAmountToPayWithoutDiscounts = 0;
 
-    const companyWorkers = workers
-      .map((worker: WorkerInterface) => {
-        const { age, childs: children } = worker;
+    const companyWorkers = workers.map((worker: WorkerInterface) => {
+      const { age, childs: children } = worker;
 
-        if (age > Number(policyAgeLimit)) {
-          return {
-            ...worker,
-            healthPolicyPrice: 0,
-            dentalPolicyPrice: 0,
-            amountToPay: 0,
-            enableForThisPolicy: false,
-          };
-        }
-
-        const healthPolicyPrice = calculateWorkerSecureCost(children, healthPriceOptions);
-        const dentalPolicyPrice = hasDentalCare
-          ? calculateWorkerSecureCost(children, dentalPriceOptions)
-          : 0;
-
-        const totalPolicyPrice = healthPolicyPrice + dentalPolicyPrice;
-
-        companyAmountToPayWithoutDiscounts += totalPolicyPrice;
-
+      if (age > Number(policyAgeLimit)) {
         return {
           ...worker,
-          healthPolicyPrice,
-          dentalPolicyPrice,
-          amountToPay: calculateWorkerAmountToPay(totalPolicyPrice, companyPercentage),
-          enableForThisPolicy: true,
+          healthPolicyPrice: 0,
+          dentalPolicyPrice: 0,
+          amountToPay: 0,
+          enableForThisPolicy: false,
         };
-      })
-      .filter((worker: WorkerInterface) => !!worker);
+      }
+
+      const healthPolicyPrice = calculateWorkerSecureCost(children, healthPriceOptions);
+      const dentalPolicyPrice = hasDentalCare
+        ? calculateWorkerSecureCost(children, dentalPriceOptions)
+        : 0;
+
+      const totalPolicyPrice = healthPolicyPrice + dentalPolicyPrice;
+
+      companyAmountToPayWithoutDiscounts += totalPolicyPrice;
+
+      return {
+        ...worker,
+        healthPolicyPrice,
+        dentalPolicyPrice,
+        amountToPay: calculateWorkerAmountToPay(totalPolicyPrice, companyPercentage),
+        enableForThisPolicy: true,
+      };
+    });
 
     return res.status(200).send({
       companyWorkers,
