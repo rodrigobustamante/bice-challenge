@@ -33,10 +33,21 @@ const calculateWorkerSecureCost = (
   return healthPrice;
 };
 
-const calculateWorkerAmountToPay = (policyCost: number, companyPayPercentage: number): number =>
-  ((HUNDRED_PERCENT - companyPayPercentage) * policyCost) / HUNDRED_PERCENT;
+const calculateWorkerAmountToPay = (policyCost: number, companyPayPercentage: number): number => {
+  if (policyCost <= 0) return 0;
+  if (companyPayPercentage <= 0) return 0;
 
-const calculateCompanyAmountToPay = (policyCost: number, companyPayPercentage: number): number =>
-  (companyPayPercentage * policyCost) / HUNDRED_PERCENT;
+  return ((HUNDRED_PERCENT - companyPayPercentage) * policyCost) / HUNDRED_PERCENT;
+};
+
+const calculateCompanyAmountToPay = (
+  companyTotalPolicyCost: number,
+  companyPayPercentage: number,
+): number => {
+  if (companyTotalPolicyCost <= 0) return 0;
+  if (companyPayPercentage <= 0) return 0;
+
+  return (companyPayPercentage * companyTotalPolicyCost) / HUNDRED_PERCENT;
+};
 
 export { calculateWorkerSecureCost, calculateWorkerAmountToPay, calculateCompanyAmountToPay };
