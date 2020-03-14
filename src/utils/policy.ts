@@ -11,6 +11,7 @@ const calculateWorkerSecureCost = (
   pricesPerChildren: PricesPerChildrenInterface,
 ): number => {
   if (children < 0) return 0;
+  if (children % 1 !== 0) return 0;
 
   const { priceWithoutChildren, priceWithOneChild, priceWithTwoOrMoreChildren } = pricesPerChildren;
   let healthPrice: number;
