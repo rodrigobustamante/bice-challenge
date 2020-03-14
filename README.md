@@ -11,7 +11,7 @@
 
 This project is my apply for Globant, to the client BICE Vida.
 
-The challenge consists in consume a BICE Vida REST service, and calculate the policy for a company, and the amount to pay for every worker in the company (The service return an array with the list of the workers, with their age and their children, the company copayment percentage and a boolean with information on whether the policy has dental insurance) and return this information in a REST service.
+The challenge consists in consume a BICE Vida REST service, calculate the policy for a company, and the amount to pay for every worker in the company (The service return an array with the list of the workers, with their age and their children, the company copayment percentage and a boolean with information on whether the policy has dental insurance) and return this information in a REST service.
 
 The technical requirement for develop this service is use [NodeJS](https://nodejs.org/), with the [Serverless Framework](https://serverless.com).
 
