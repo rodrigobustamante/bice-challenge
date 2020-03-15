@@ -51,7 +51,7 @@ const getPolicy = async (
       company_percentage: companyPercentage,
     } = policy;
 
-    let companyAmountToPayWithoutDiscounts = 0;
+    let companyPolicyPrice: number = 0;
 
     const companyWorkers = workers.map((worker: WorkerInterface) => {
       const { age, childs: children } = worker;
@@ -83,7 +83,7 @@ const getPolicy = async (
       const workerCoverageHealth = calculateWorkerAmountToPay(healthPolicyPrice, companyPercentage);
       const workerCoverageDental = calculateWorkerAmountToPay(dentalPolicyPrice, companyPercentage);
 
-      companyAmountToPayWithoutDiscounts += healthPolicyPrice + dentalPolicyPrice;
+      companyPolicyPrice += companyCoverageHealth + companyCoverageDental;
 
       return {
         ...worker,
@@ -102,10 +102,7 @@ const getPolicy = async (
     });
 
     return res.status(200).send({
-      companyPolicyPrice: calculateCompanyAmountToPay(
-        companyAmountToPayWithoutDiscounts,
-        companyPercentage,
-      ),
+      companyPolicyPrice,
       hasDentalCare,
       companyPercentage,
       companyWorkers,
