@@ -82,6 +82,10 @@ The used libraries are separated in two, dependencies and development dependenci
 
 ### 4.2 Installation guide
 
+#### NOTE
+
+To run the project offline, you need a serverless account, and one project, modify the serverless.yml and change the values of `app` and `org` for your own credentials.
+
 #### 4.2.1
 
 Clone this project using the next command, run this command in your favorite terminal.
