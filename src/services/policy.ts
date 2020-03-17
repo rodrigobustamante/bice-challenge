@@ -1,5 +1,4 @@
 import got from 'got';
-import express from 'express';
 import {
   calculateWorkerSecureCost,
   calculateWorkerAmountToPay,
@@ -11,10 +10,28 @@ interface WorkerInterface {
   childs: number;
 }
 
-const getPolicy = async (
-  _req: express.Request,
-  res: express.Response,
-): Promise<express.Response> => {
+interface PolicyPricesInterface {
+  amountToPayForHealth: number;
+  amountToPayForDental: number;
+  totalAmountToPay: number;
+}
+
+interface WorkerProcessedInterface {
+  age: number;
+  childs: number;
+  companyCoverage: PolicyPricesInterface;
+  workerAmountToPay: PolicyPricesInterface;
+  enableForThisPolicy: boolean;
+}
+
+interface CompanyPolicyInterface {
+  companyPolicyPrice: number;
+  hasDentalCare: boolean;
+  companyPercentage: number;
+  companyWorkers: [WorkerProcessedInterface];
+}
+
+const getPolicy = async (): Promise<CompanyPolicyInterface> => {
   const {
     POLICY_API_URL: policyApiUrl = '',
     POLICY_AGE_LIMIT: policyAgeLimit = '',
@@ -101,17 +118,14 @@ const getPolicy = async (
       };
     });
 
-    return res.status(200).send({
+    return {
       companyPolicyPrice,
       hasDentalCare,
       companyPercentage,
       companyWorkers,
-    });
+    };
   } catch (error) {
-    return res.status(500).send({
-      message: 'Internal server error',
-      error,
-    });
+    throw new Error(error);
   }
 };
 
