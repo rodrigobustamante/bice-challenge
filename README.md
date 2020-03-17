@@ -25,12 +25,10 @@ The folder structure with their definitions is the next:
 ├── **tests**
 │ └── src/utils/policy.test.ts (This file contains the unit tests for the policy utils functions)
 ├── src
-│ ├── controllers (This folder contains the logic to process the service requests)
+│ ├── services (This folder contains the logic to process the service requests)
 │ │ └── policy.ts
-│ ├── routes (This folder contains the project routes)
-│ ├── utils (This folder contains the files for process the business rules)
-│ │ └── policy.ts
-│ └── index.ts (This file is the attendant of set up the Express REST service)
+│ └── utils (This folder contains the files for process the business rules)
+│   └── policy.ts
 ├── .editorconfig
 ├── .eslintignore
 ├── .eslintrc.js
@@ -51,17 +49,12 @@ The used libraries are separated in two, dependencies and development dependenci
 ### Dependencies
 
 - [aws-lambda](https://www.npmjs.com/package/aws-lambda) In this case, only used for get the types of the handler arguments and response
-- [body-parser](https://www.npmjs.com/package/body-parser) Node.js body parsing middleware
-- [cors](https://www.npmjs.com/package/cors) A node.js package for providing a Connect/Express middleware that can be used to enable CORS with various options
-- [express](https://www.npmjs.com/package/express) Node.js web application framework that provides a robust set of features for web
 - [got](https://www.npmjs.com/package/got) Human-friendly and powerful HTTP request library for Node.js
 - [serverless-http](https://www.npmjs.com/package/serverless-http) This module allows you to 'wrap' your API for serverless use. No HTTP server, no ports or sockets
 
 ### Development Dependencies
 
 - [@types/aws-lambda](https://www.npmjs.com/package/@types/aws-lambda) TypeScript definitions for aws-lambda
-- [@types/cors](https://www.npmjs.com/package/@types/cors) TypeScript definitions for CORS
-- [@types/express](https://www.npmjs.com/package/@types/express) TypeScript definitions for Express
 - [@types/got](https://www.npmjs.com/package/@types/got) TypeScript definitions for GOT
 - [@types/jest](https://www.npmjs.com/package/@types/jest) TypeScript definitions for Jest
 - [jest](https://www.npmjs.com/package/jest) A JavaScript Testing Framework

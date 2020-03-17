@@ -16,8 +16,6 @@
   },
   "dependencies": {
     "aws-lambda": "^1.0.5",
-    "body-parser": "^1.19.0",
-    "cors": "^2.8.5",
     "got": "^10.6.0",
     "serverless-http": "^2.3.2"
   },
